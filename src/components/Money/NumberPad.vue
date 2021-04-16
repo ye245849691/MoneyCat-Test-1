@@ -29,44 +29,50 @@ import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
 
 @Component
-export default class NumberPad extends Vue{
+export default class NumberPad extends Vue {
   @Prop() readonly amount!: number;
 
   output = this.amount.toString();
 
-  inputContent(event: MouseEvent){
+  inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement);
     const input = button.textContent!;
-    if(this.output.length >=16) return;
-    if(this.output==='0' && '0123456789'.indexOf(input) >=0){
+    if (this.output.length >= 16) return;
+    if (this.output === '0' && '0123456789'.indexOf(input) >= 0) {
       this.output = input;
-    }else if(this.output.indexOf('.')>=0 && input==='.'){
+    } else if (this.output.indexOf('.') >= 0 && input === '.') {
       return;
-    }else{
-      this.output +=input;
+    } else {
+      this.output += input;
     }
   }
-  remove(){
-    if(this.output.length>1){
-      this.output = this.output.slice(0,-1);
-    }else{
+
+  remove() {
+    if (this.output.length > 1) {
+      this.output = this.output.slice(0, -1);
+    } else {
       this.output = '0';
     }
   }
-  clear(){
+
+  clear() {
     this.output = '0';
   }
-  ok(){
-    if(this.output[this.output.length-1]==='.'){
-      this.output = this.output.slice(0,-1);
+
+  ok() {
+    if (this.output[this.output.length - 1] === '.') {
+      this.output = this.output.slice(0, -1);
     }
-    this.$emit('update:amount',this.output)
+    this.$emit('update:amount', this.output);
+    this.$emit('submit', this.output);
+    this.output = '0';
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/styles/helper.scss";
+
 .numberPad {
   > .showNum {
     @extend %clearfix;
