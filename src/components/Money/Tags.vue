@@ -1,26 +1,53 @@
 <template>
   <div class="tags">
     <div class="addTag">
-      <button>新增标签</button>
+      <button @click="addTag">新增标签</button>
     </div>
     <div class="tagsLabel">
       <ul class="currentTags">
-        <li>买衣服</li>
-        <li>吃饭</li>
-        <li>房租</li>
-        <li>交通费用</li>
+        <li v-for="tag in dataSource" :key="tag"
+            :class="{selected : selectedTags.indexOf(tag)>=0}"
+            @click="toggle(tag)">{{tag}}</li>
       </ul>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-export default {
-  name: 'Tags'
-};
+import Vue from 'vue';
+import {Component, Prop} from 'vue-property-decorator';
+
+@Component
+export default class Tags extends Vue{
+  @Prop() dataSource: string[] | undefined;
+  // @Prop() readonly tags!: string[];
+  selectedTags : string[]=[];
+
+  toggle(tag: string){
+    const index = this.selectedTags.indexOf(tag);
+    if(index>=0){
+      this.selectedTags.splice(index,1);
+    }else{
+      this.selectedTags.push(tag);
+    }
+    this.$emit('update:tags',this.selectedTags)
+  }
+  addTag(){
+    const name = window.prompt('请输入标签名');
+    if(name===''){
+      window.alert('标签名不能为空');
+    }else if(name===null){
+      return;
+    }else{
+      if(this.dataSource)
+      this.$emit('update:dataSource',[...this.dataSource,name])
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/styles/helper.scss";
 .tags {
   font-size: 14px;
   padding: 16px;
@@ -43,6 +70,10 @@ export default {
         padding: 0 16px;
         margin-right: 12px;
         margin-top: 4px;
+        &.selected{
+          color: $color-highlight;
+          background: $background-highlight;
+        }
       }
     }
   }
