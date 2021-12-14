@@ -13,6 +13,7 @@ module.exports = {
   },
   rules: {
     '@typescript-eslint/no-var-requires': 0,
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
   },
@@ -22,6 +23,9 @@ module.exports = {
         '**/__tests__/*.{j,t}s?(x)',
         '**/tests/unit/**/*.spec.{j,t}s?(x)'
       ],
+      rules: {
+        "@typescript-eslint/explicit-module-boundary-types": ["error"]
+      },
       env: {
         jest: true
       }

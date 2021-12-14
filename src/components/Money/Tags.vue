@@ -5,9 +5,9 @@
     </div>
     <div class="tagsLabel">
       <ul class="currentTags">
-        <li v-for="tag in dataSource" :key="tag"
+        <li v-for="tag in dataSource" :key="tag.id"
             :class="{selected : selectedTags.indexOf(tag)>=0}"
-            @click="toggle(tag)">{{tag}}</li>
+            @click="toggle(tag.id)">{{tag.name}}</li>
       </ul>
     </div>
   </div>
@@ -31,6 +31,7 @@ export default class Tags extends Vue{
       this.selectedTags.push(tag);
     }
     this.$emit('update:tags',this.selectedTags)
+    return;
   }
   addTag(){
     const name = window.prompt('请输入标签名');
@@ -49,6 +50,7 @@ export default class Tags extends Vue{
 <style lang="scss" scoped>
 @import "~@/assets/styles/helper.scss";
 .tags {
+  background: white;
   font-size: 14px;
   padding: 16px;
   display: flex;
