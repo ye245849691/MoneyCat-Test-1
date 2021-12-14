@@ -1,7 +1,7 @@
 <template>
   <Layout class-prefix="layout">
     <NumberPad :amount.sync="record.amount" @submit="addRecord"/>
-    <Types :type="record.type"/>
+    <Types :type.sync="record.type"/>
     <div class="note">
       <FormItem fieldName="备注" placeholder="请在这里输入备注" @update:value="onUpdateNotes"/>
     </div>
@@ -34,6 +34,7 @@ export default class Money extends Vue {
     this.record.notes=value;
   }
   addRecord(){
+    console.log(this.record);
     const deepClone = recordListModel.clone(this.record);
     deepClone.createdAt = new Date();
     this.recordList.push(deepClone);
