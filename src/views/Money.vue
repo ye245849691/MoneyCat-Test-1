@@ -31,18 +31,15 @@ export default class Money extends Vue {
   record: RecordItem = {tags: [], notes: '', type: '-', amount: 0};
 
   onUpdateNotes(value: string) {
-    console.log("value的值是："+value);
     this.record.notes=value;
   }
   addRecord(){
-    const deepClone = recordListModel.clone(this.record);
-    deepClone.createdAt = new Date();
-    this.recordList.push(deepClone);
+    recordListModel.create(this.record)
   }
 
   @Watch('recordList')
   onRecordListChanged(){
-    recordListModel.save(this.recordList);
+    recordListModel.save();
   }
 }
 </script>
