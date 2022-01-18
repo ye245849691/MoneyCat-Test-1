@@ -1,5 +1,6 @@
 <template>
-    <svg class="icon" @click="$emit('click',$event)">
+<!--  <svg class="icon" @click="$emit('click',$event)"> 同样可用于使子组件触发，相当于.native-->
+    <svg class="icon">
       <use :xlink:href="'#'+name"/>
     </svg>
 </template>
