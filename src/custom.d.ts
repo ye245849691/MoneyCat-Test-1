@@ -25,4 +25,6 @@ interface Window {
   removeTag: (id:string)=>'success' | 'remove fail';
   //updateTag:TagListModel['update'] 等于
   updateTag: (id:string,name:string)=>'success' | 'not found label' | 'duplicated label';
+  recordList:RecordItem[];
+  createRecord:(record:RecordItem)=>void
 }
