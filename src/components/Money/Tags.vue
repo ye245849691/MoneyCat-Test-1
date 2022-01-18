@@ -7,7 +7,7 @@
       <ul class="currentTags">
         <li v-for="tag in dataSource" :key="tag.id"
             :class="{selected : selectedTags.indexOf(tag)>=0}"
-            @click="toggle(tag.id)">{{tag.name}}</li>
+            @click="toggle(tag)">{{tag.name}}</li>
       </ul>
     </div>
   </div>
@@ -20,7 +20,7 @@ import tagListModel from '@/models/tagListModel1';
 
 @Component
 export default class Tags extends Vue{
-  @Prop() dataSource: string[] | undefined;
+  @Prop() readonly dataSource: string[] | undefined;
   // @Prop() readonly tags!: string[];
   selectedTags : string[]=[];
 
@@ -32,7 +32,6 @@ export default class Tags extends Vue{
       this.selectedTags.push(tag);
     }
     this.$emit('update:tags',this.selectedTags)
-    return;
   }
   addTag(){
     const name = window.prompt('请输入标签名');
