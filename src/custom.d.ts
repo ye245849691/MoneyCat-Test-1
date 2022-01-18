@@ -20,5 +20,9 @@ type TagListModel = {
 
 interface Window {
   tagList: Tag[];
+  findTag:(id:string)=>Tag | undefined;
   createTag: (name:string)=>void;
+  removeTag: (id:string)=>'success' | 'remove fail';
+  //updateTag:TagListModel['update'] 等于
+  updateTag: (id:string,name:string)=>'success' | 'not found label' | 'duplicated label';
 }
