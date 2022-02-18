@@ -1,24 +1,66 @@
-import tagListModel from '@/models/tagListModel1';
+import createId from '@/lib/createId';
 
-export default {
+const localStorageKeyName = 'tagList'
 
-//tag store
-  tagList: tagListModel.fetch(),
+const tagStore =  {
+  //tag store
+  tagList: [] as Tag[],
+  fetchTags(){
+    this.tagList =  JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]');
+    return this.tagList;
+  },
   findTag(id: string) {
     return this.tagList.filter(t => t.id === id)[0];
   },
-  createTag: (name: string) => {
-    const message = tagListModel.create(name);
-    if (message === 'duplicated') {
+  saveTags() {
+    window.localStorage.setItem(localStorageKeyName,JSON.stringify(this.tagList));
+  },
+  createTag (name: string) {
+    const id = createId().toString();
+    const names = this.tagList.map(item => item.name);
+    if (names.indexOf(name)>=0){
       window.alert('已存在该标签名');
-    } else if (message === 'success') {
-      window.alert('添加成功');
+      return 'duplicated'
     }
+    this.tagList.push({id,name:name});
+    this.saveTags();
+    window.alert('添加成功');
+    return 'success';
   },
-  removeTag: (id: string) => {
-    return tagListModel.remove(id);
+  removeTag(id: string){
+    let index=-1;
+    console.log(id);
+    for(let i=0;i<this.tagList.length;i++){
+      if(this.tagList[i].id===id){
+        index=i;
+        break;
+      }
+    }
+    if(index!==-1){
+      this.tagList.splice(index,1);
+      this.saveTags();
+      return 'success';
+    }
+    return 'remove fail';
   },
-  updateTag: (id: string, name: string) => {
-    return tagListModel.update(id, name);
+  updateTag(id: string, name: string){
+    const idList=this.tagList.map(item=>item.id);
+    if(idList.indexOf(id)>=0){
+      const names=this.tagList.map(item=>item.name);
+      if(names.indexOf(name)>=0){
+        return 'duplicated label'
+      }else{
+        const tag = this.tagList.filter(item=>item.id===id)[0]
+        tag.name=name;
+        this.saveTags();
+        return 'success';
+      }
+    }else{
+      return 'not found label'
+    }
   }
 }
+
+tagStore.fetchTags();
+
+export default tagStore;

@@ -16,7 +16,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
-import tagListModel from '@/models/tagListModel1';
+import store from '@/store/index2';
 
 @Component
 export default class Tags extends Vue{
@@ -40,7 +40,7 @@ export default class Tags extends Vue{
     }else if(name===null){
       return;
     }else {
-      const res = tagListModel.create(name)
+      const res = store.createTag(name)
       if(res==='success'){
         window.alert('添加成功');
       }else if(res==='duplicated'){
