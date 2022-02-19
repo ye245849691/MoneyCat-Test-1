@@ -5,7 +5,7 @@
     </div>
     <div class="tagsLabel">
       <ul class="currentTags">
-        <li v-for="tag in dataSource" :key="tag.id"
+        <li v-for="tag in tagList" :key="tag.id"
             :class="{selected : selectedTags.indexOf(tag)>=0}"
             @click="toggle(tag)">{{tag.name}}</li>
       </ul>
@@ -20,7 +20,7 @@ import store from '@/store/index2';
 
 @Component
 export default class Tags extends Vue{
-  @Prop() readonly dataSource: string[] | undefined;
+  tagList = store.fetchTags();
   // @Prop() readonly tags!: string[];
   selectedTags : string[]=[];
 
@@ -35,20 +35,11 @@ export default class Tags extends Vue{
   }
   addTag(){
     const name = window.prompt('请输入标签名');
-    if(name===''){
-      window.alert('标签名不能为空');
-    }else if(name===null){
-      return;
-    }else {
-      const res = store.createTag(name)
-      if(res==='success'){
-        window.alert('添加成功');
-      }else if(res==='duplicated'){
-        window.alert('已存在该标签名');
-      }
+    if(!name){return window.alert('标签名不能为空');}
+    store.createTag(name);
       // if(this.dataSource){
       // this.$emit('update:dataSource',[...this.dataSource,name])
-    }
+
   }
 }
 </script>

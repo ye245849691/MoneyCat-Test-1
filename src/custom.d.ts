@@ -9,16 +9,16 @@ type Tag = {
   id:string
   name:string
 }
-type TagListModel = {
-  data:Tag[]
-  fetch:()=>Tag[]
-  create:(name:string)=> 'success' | 'duplicated'
-  update:(id:string,name:string)=>'success' | 'not found label' | 'duplicated label'
-  remove:(id:string)=>'success' | 'remove fail'
-  save:()=>void
-}
+// type TagListModel = {
+//   data:Tag[]
+//   fetch:()=>Tag[]
+//   create:(name:string)=> 'success' | 'duplicated'
+//   update:(id:string,name:string)=>'success' | 'not found label' | 'duplicated label'
+//   remove:(id:string)=>'success' | 'remove fail'
+//   save:()=>void
+// }
 
-interface Window {
+// interface Window {
 //   store: {
 //   tagList: Tag[];
 //   findTag:(id:string)=>Tag | undefined;
@@ -30,4 +30,4 @@ interface Window {
 //   createRecord:(record:RecordItem)=>void
 // }
 
-}
+// }
