@@ -6,7 +6,7 @@
       <Icon class="rightIcon"/>
     </div>
     <div class="form-wrapper">
-      <FormItem :value="tag.name" @update:value="update" field-name="标签名" placeholder="请输入标签名"></FormItem>
+      <FormItem :value="currentTag.name" @update:value="update" field-name="标签名" placeholder="请输入标签名"></FormItem>
     </div>
     <div class="button-wrapper">
       <Button @click="remove">删除标签</Button>
@@ -19,62 +19,72 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import FormItem from '@/components/Money/FormItem.vue';
 import Button from '@/components/Button.vue';
-import store from '@/store/index2';
+
 @Component({
   components: {Button, FormItem}
 })
 export default class EditLabel extends Vue {
 
-  tag?: {id:string,name:string}=undefined;
-  created(){
-    this.tag = store.findTag(this.$route.params.id);
-    if(!this.tag){
+  get currentTag() {
+    return this.$store.state.currentTag;
+  }
+
+  created() {
+    const id = this.$route.params.id;
+    this.$store.commit('fetchTags');
+    this.$store.commit('setCurrentTag', id);
+    if (!this.currentTag) {
       this.$router.replace('/404');
     }
   }
-  update(name:string){
-    if(this.tag){
-      store.updateTag(this.tag.id,name);
-    }
 
-  }
-  remove(){
-    if(this.tag){
-      if(store.removeTag(this.tag.id) === 'success'){
-        this.$router.back();
-      }
+  update(name: string) {
+    if (this.currentTag) {
+      this.$store.commit('updateTag', {id: this.currentTag.id, name});
     }
   }
-  goBack(){
-    this.$router.back()
+
+  remove() {
+    if (this.currentTag) {
+      this.$store.commit('removeTag', this.currentTag.id);
+    }
+  }
+
+  goBack() {
+    this.$router.back();
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.navBar{
+.navBar {
   font-size: 16px;
   background: white;
   display: flex;
   padding: 12px 16px;
   justify-content: space-between;
-  >.leftIcon{
+
+  > .leftIcon {
     width: 24px;
     height: 24px;
   }
-  >.title{
+
+  > .title {
 
   }
-  >.rightIcon{
+
+  > .rightIcon {
     width: 24px;
     height: 24px;
   }
 }
-.form-wrapper{
+
+.form-wrapper {
   background: white;
   margin-top: 10px;
 }
-.button-wrapper{
+
+.button-wrapper {
   text-align: center;
   padding-top: 16px;
   margin-top: 28px;
