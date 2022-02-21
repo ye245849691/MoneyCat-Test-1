@@ -37,7 +37,7 @@ export default class NumberPad extends Vue {
   inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement);
     const input = button.textContent!;
-    if (this.output.length >= 16) return;
+    if (this.output.length >= 16) {window.alert('最多输入16位数字'); return};
     if (this.output === '0' && '0123456789'.indexOf(input) >= 0) {
       this.output = input;
     } else if (this.output.indexOf('.') >= 0 && input === '.') {
