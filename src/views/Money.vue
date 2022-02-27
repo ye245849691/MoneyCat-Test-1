@@ -3,7 +3,7 @@
     <NumberPad :amount.sync="record.amount" @submit="addRecord"/>
     <Tabs  :data-source="recordTypeList" :value.sync="record.type" :type.sync="record.type"/>
     <div class="note">
-      <FormItem fieldName="备注" placeholder="请在这里输入备注" @update:value="onUpdateNotes"/>
+      <FormItem fieldName="备注" placeholder="请在这里输入备注" :value.sync="record.notes"/>
     </div>
     <Tags :tags.sync="record.tags"/>
   </Layout>
@@ -39,6 +39,8 @@ export default class Money extends Vue {
 
   addRecord() {
     this.$store.commit('createRecord',this.record);
+    this.record.notes='';
+
   }
 
 }

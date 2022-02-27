@@ -54,9 +54,12 @@ Vue.use(Vuex)
     },
     createRecord(state,record){
       const record2:RecordItem = clone(record);
+      if(record2.amount<=0) {window.alert('请输入大于0的金额');return;}
       record2.createdAt = new Date().toISOString();
       state.recordList.push(record2);
       store.commit('saveRecords')
+      window.alert('添加新账单成功^_^!')
+
     },
     saveRecords(state){
       window.localStorage.setItem('recordList',JSON.stringify(state.recordList));
