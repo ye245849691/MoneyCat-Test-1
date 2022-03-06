@@ -18,7 +18,7 @@ body {
   background: #f5f5f5;
 }
 .app {
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto;
   box-shadow: 0 0 10px rgba(0,0,0,0.25);
 }
